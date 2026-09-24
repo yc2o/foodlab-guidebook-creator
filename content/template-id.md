@@ -1,6 +1,6 @@
 ---
 # ==============================================================================
-# DOCUMENT & COVER METADATA
+# METADATA DOKUMEN & COVER
 # ==============================================================================
 title: "Buku Panduan Standar Template"
 subtitle: "PEDOMAN OPERASIONAL & PENULISAN DOKUMEN"
@@ -19,7 +19,7 @@ system: "SISTEM INFORMASI OPERASIONAL DIGITAL KAMPUS"
 department: "Laboratorium Rekayasa Perangkat Lunak & Sistem Cerdas"
 
 # ==============================================================================
-# PDF METADATA (Document Properties & Hyperref)
+# METADATA PDF (Properties File PDF & Hyperref)
 # ==============================================================================
 pdf_title: "Buku Panduan Template FoodLAB PENS"
 pdf_subject: "Panduan Operasional Standar Penulisan Naskah FL-OPS-TMP-ID-001"
@@ -33,6 +33,7 @@ template: true
 lang: "id"
 enable_chapter_cover: "true"
 ---
+
 # Kata Pengantar
 
 Kata pengantar ini secara otomatis diekstrak oleh program ke dalam bagian *frontmatter* dokumen LaTeX dengan penomoran halaman standar terpadu. Tuliskan latar belakang penyusunan dokumen, sasaran pembaca, dan ucapan terima kasih dalam satu hingga tiga paragraf padat.
@@ -47,11 +48,13 @@ Semua dokumen disusun menggunakan satu file sumber Markdown mandiri di dalam fol
 
 Program konverter memetakan hierarki heading Markdown secara cerdas agar tidak terjadi duplikasi penomoran:
 
-- `# Bab <N>: <Judul>` dipetakan sebagai bab utama (`\chapter`). Jika `enable_chapter_cover` bernilai `true`, halaman pembuka bab berlatar biru tua akan digenerasi otomatis.
+- `# Bab <N>: <Judul>` dipetakan sebagai bab utama (`\chapter`). Jika `enable_chapter_cover` bernilai `true`, halaman pemisah bab (*chapter divider cover*) satu halaman penuh dengan aksen garis biru-emas dan logo resmi akan digenerasi otomatis sebelum isi bab dimulai.
 - `## <Judul Subbab>` atau `## <N.M> <Judul>` dipetakan sebagai subbab (`\section`). LaTeX akan memberikan nomor urut otomatis seperti `1.1 Judul` tanpa pengulangan angka ganda.
 - `### <Judul Sub-subbab>` atau `### <N.M.P> <Judul>` dipetakan sebagai sub-subbab (`\subsection`).
 
-> **Penting**:Anda dapat menulis judul subbab secara langsung seperti `## Sejarah FoodLAB` maupun menyertakan nomor manual seperti `## 1.1 Sejarah FoodLAB`. Program secara otomatis mendeteksi dan menormalkan penomoran sehingga keluaran judul selalu rapi.
+> **Penting**
+>
+> Anda dapat menulis judul subbab secara langsung seperti `## Sejarah FoodLAB` maupun menyertakan nomor manual seperti `## 1.1 Sejarah FoodLAB`. Program secara otomatis mendeteksi dan menormalkan penomoran sehingga keluaran judul selalu rapi.
 
 ## 1.2 Format Tipografi Teks
 
@@ -64,7 +67,7 @@ Gunakan sintaks Markdown standar untuk penekanan teks:
 
 ## 1.3 Kotak Informasi dan Peringatan Lapangan
 
-Untuk membuat kotak SOP atau catatan khusus lapangan, gunakan sintaks blockquote Markdown (`>`) dengan judul tebal:
+Untuk membuat kotak SOP, peringatan, atau catatan khusus lapangan, gunakan sintaks blockquote Markdown (`>`) dengan judul tebal pada baris pertama:
 
 > **Pilar Nilai Pelayanan Pengantaran**
 >
@@ -72,6 +75,12 @@ Untuk membuat kotak SOP atau catatan khusus lapangan, gunakan sintaks blockquote
 > - **Keutuhan**: Makanan dan minuman sampai ke tangan konsumen dalam kondisi sama seperti saat diserahkan tenant.
 
 Kotak ini akan otomatis di-render dengan bingkai garis putus-putus (*dashed*) berwarna emas dan latar belakang krem hangat sesuai standar resmi FoodLAB.
+
+## 1.4 Simbol, Karakter Khusus, dan Tautan Antar-Bab
+
+- **Karakter Khusus**: Karakter seperti `&`, `%`, `$`, `#`, `_` otomatis di-escape oleh parser.
+- **Tanda Panah & Alur**: Gunakan teks standar seperti `->` atau `>` (contoh: `Masuk -> Siap Diantar -> Diantar`) tanpa perlu menulis sintaks matematika LaTeX manual.
+- **Tautan Internal**: Gunakan format `[Teks Tautan](#anchor-slug)` untuk merujuk ke bab/subbab lain (contoh: `[Bab 2.1](#21-format-tabel-data)`). Tautan akan aktif dan dapat diklik pada dokumen PDF.
 
 ---
 
@@ -104,20 +113,10 @@ Daftar berurutan menggunakan penomoran angka `1.`:
 2. Terima notifikasi penawaran pesanan terdekat.
 3. Lakukan verifikasi kode serah terima bersama mitra tenant.
 
----
+## 2.3 Format Gambar, Tangkapan Layar (Screenshot), dan Penjelasan
 
-# Lampiran 1: Glosarium Parameter Template
+Untuk menyisipkan gambar atau tangkapan layar antarmuka aplikasi, letakkan file gambar di dalam folder `figures/` (misal: `figures/logo-pens.png`), lalu gunakan sintaks gambar Markdown dengan teks caption:
 
-| Istilah | Definisi Operasional |
-| --- | --- |
-| GBL | *Guide Book LaTeX*, sistem otomatisasi kompilasi Markdown ke PDF. |
-| Frontmatter | Blok konfigurasi YAML pada bagian paling atas file Markdown. |
-| Clean Cache | Perintah untuk membersihkan semua file LaTeX tanpa menghapus PDF. |
+![Logo Resmi Institusi PENS](figures/logo-pens.png)
 
----
-
-# Lampiran 2: Lembar Panduan Singkat
-
-1. Simpan file baru di folder `content/<nama>.md`.
-2. Jalankan perintah `gbl <nama>` di terminal Windows atau `./gbl <nama>` di Linux.
-3. Buka hasil file PDF yang terletak di folder `build/<nama>.pdf`.
+*Gambar di atas merupakan contoh penyisipan aset grafis atau tangkapan layar antarmuka aplikasi. Keterangan teks di bawah gambar ini dapat digunakan untuk memberikan penjelasan mendalam terkait alur fitur atau elemen UI yang ditampilkan.*

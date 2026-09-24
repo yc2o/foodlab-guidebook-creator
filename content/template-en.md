@@ -2,68 +2,72 @@
 # ==============================================================================
 # DOCUMENT & COVER METADATA
 # ==============================================================================
-title: "Standard Template Handbook"
-subtitle: "OPERATIONAL & PUBLISHING GUIDELINES"
-description: "Technical Guidelines for Publishing Markdown to PENS LaTeX Format"
+title: "Standard Template Guidebook"
+subtitle: "OPERATIONAL & PUBLISHING SPECIFICATIONS"
+description: "Technical Writing Guidelines for Markdown to LaTeX PENS Compilation"
 doc_number: "FL-OPS-TMP-EN-001"
 version: "1.0.0"
 role: "Template EN"
-status: "Official Reference Document"
-publisher: "FoodLAB Architecture & Operations Team"
+status: "Official Reference Standard"
+publisher: "FoodLAB Systems & Architecture Team"
 author: "FoodLAB - PENS"
 edition: "First Edition"
 year: "2026"
 city: "Surabaya, Indonesia"
 institution: "Politeknik Elektronika Negeri Surabaya (PENS)"
-system: "CAMPUS DIGITAL OPERATIONAL INFORMATION SYSTEM"
-department: "Software Engineering & Intelligent Systems Laboratory"
+system: "SISTEM INFORMASI OPERASIONAL DIGITAL KAMPUS"
+department: "Laboratorium Rekayasa Perangkat Lunak & Sistem Cerdas"
 
 # ==============================================================================
 # PDF METADATA (Document Properties & Hyperref)
 # ==============================================================================
-pdf_title: "FoodLAB Standard Template Handbook"
-pdf_subject: "Standard Operational Documentation Guidelines FL-OPS-TMP-EN-001"
+pdf_title: "FoodLAB PENS Standard Template Guidebook"
+pdf_subject: "Standard Operational Publishing Guidelines FL-OPS-TMP-EN-001"
 pdf_keywords: "FoodLAB, Template, Guidebook, PENS, SOP, English"
 pdf_author: "FoodLAB - PENS"
 
 # ==============================================================================
 # LAYOUT & VISUAL SETTINGS
 # ==============================================================================
+template: true
 lang: "en"
 enable_chapter_cover: "true"
 ---
+
 # Preface
 
-This preface is automatically extracted by the publishing pipeline into the frontmatter section of the LaTeX document with unified pagination. Provide a concise summary of the document purpose, intended audience, and operational context in one to three structured paragraphs.
+This preface section is automatically parsed into the LaTeX frontmatter with standardized Roman numeral page numbering. Authors should describe the context of the document, the target reader demographic, and institutional acknowledgments within one to three concise paragraphs.
 
-All publication manuals are authored using a single Markdown source file within the `content/` directory. Authors never need to edit LaTeX source files manually because all layout parameters, covers, and typography are defined through the YAML frontmatter above.
+All manuals are authored as self-contained Markdown files inside the `content/` folder. Authors do not need to configure separate LaTeX template files because all typography, layout geometry, and cover properties are driven by the YAML frontmatter above.
 
 ---
 
 # Chapter 1: Document Structure and Heading Hierarchy
 
-## 1.1 Heading Levels and Numbering Standards
+## 1.1 Section Numbering and Level Mapping
 
-The converter parses standard Markdown heading structures and maps them deterministically into LaTeX levels without numbering collisions:
+The compiler maps Markdown heading levels intelligently to avoid redundant numbering:
 
-- `# Chapter <N>: <Title>` or `# Bab <N>: <Title>` maps to the main chapter level (`\chapter`). When `enable_chapter_cover` is set to `true`, a full-page solid deep blue cover divider is automatically generated.
-- `## <Section Title>` or `## <N.M> <Section Title>` maps to a section (`\section`). LaTeX automatically provides sequential numbers such as `1.1 Title` without duplicating numbers.
+- `# Chapter <N>: <Title>` or `# Bab <N>: <Title>` maps to a primary chapter (`\chapter`). When `enable_chapter_cover` is set to `true`, a full-page chapter divider page featuring royal blue and gold accent strips alongside official branding is automatically generated before chapter content.
+- `## <Section Title>` or `## <N.M> <Section Title>` maps to a section (`\section`). LaTeX automatically applies hierarchical numbering such as `1.1 Title` without duplicating numbers.
 - `### <Subsection Title>` or `### <N.M.P> <Subsection Title>` maps to a subsection (`\subsection`).
 
-> **Operational Note**:Section headings can be written with or without manual decimal prefixes (e.g. `## Service Architecture` or `## 1.1 Service Architecture`). The compiler normalizes the title so that the generated output remains clean.
+> **Note**
+>
+> You may write section titles directly as `## Background` or with manual numbering as `## 1.1 Background`. The compiler automatically normalizes the titles for clean and consistent PDF typography.
 
-## 1.2 Inline Typography and Text Styling
+## 1.2 Text Styling and Emphasis
 
-Use standard Markdown syntax for text emphasis:
+Use standard Markdown formatting for inline emphasis:
 
-- **Bold Text**: Two asterisks `**bold text**` for key terms, actions, and critical invariants.
+- **Bold Text**: Double asterisks `**bold keywords**` for core concepts and critical terms.
 - *Italic Text*: Single asterisk `*foreign terms*` for technical terminology.
 - `Inline Code`: Backticks `` `FL-ORDER-001` `` for identifiers, parameters, and commands.
 - Internal Hyperlinks: Use `[Link Text](#section-anchor)` for interactive cross-references.
 
 ## 1.3 Operational Callout Boxes
 
-To produce highlighted notices, critical SOPs, or safety instructions, use Markdown blockquote syntax (`>`) with a bold title:
+To produce highlighted notices, critical SOPs, or safety instructions, use Markdown blockquote syntax (`>`) with a bold title on the first line:
 
 > **Delivery Service Core Pillars**
 >
@@ -71,6 +75,12 @@ To produce highlighted notices, critical SOPs, or safety instructions, use Markd
 > - **Integrity**: Food and beverages arrive in pristine condition matching the original vendor preparation.
 
 The callout box is rendered with a golden dashed border, warm cream background, and bold royal blue headings matching official FoodLAB design tokens.
+
+## 1.4 Special Characters, Sequences, and Internal Links
+
+- **Special Characters**: Symbols such as `&`, `%`, `$`, `#`, `_` are automatically escaped by the compiler.
+- **Process Sequences**: Use standard text arrows like `->` or `>` (e.g. `Order Placed -> Ready for Delivery -> Delivered`) without raw LaTeX math formulas.
+- **Cross References**: Use `[Reference Text](#anchor-slug)` to link between chapters or sections (e.g. `[Section 2.1](#21-tabular-data-specifications)`). Links automatically render as interactive clickable anchors in the output PDF.
 
 ---
 
@@ -103,20 +113,10 @@ Ordered procedural steps use numerical prefixes `1.`:
 2. Accept nearest available dispatch assignment notification.
 3. Validate handoff verification code with the merchant partner.
 
----
+## 2.3 Figures, Screenshots, and Narrative Captions
 
-# Appendix 1: Configuration Parameters Glossary
+To embed diagrams or mobile application screenshots, store image assets in the `figures/` directory (e.g., `figures/foodlab-logo.png`) and use standard Markdown image syntax with caption text:
 
-| Term | Operational Definition |
-| --- | --- |
-| GBL | *Guide Book LaTeX*, the autonomous Markdown-to-PDF publishing pipeline. |
-| Frontmatter | YAML configuration block at the top of each content Markdown file. |
-| Clean Cache | CLI target to clear intermediate LaTeX files while preserving PDFs. |
+![Official FoodLAB Brand Mark](figures/foodlab-logo.png)
 
----
-
-# Appendix 2: Quick Publishing Checklist
-
-1. Place new manual source files at `content/<name>.md`.
-2. Execute `gbl <name>` on Windows or `./gbl <name>` on Linux/macOS.
-3. Inspect the compiled deliverable located at `build/<name>.pdf`.
+*The illustration above exemplifies UI screenshot or diagram embedding. Narrative paragraphs directly following the figure provide contextual operational walk-throughs and interface component breakdowns.*
