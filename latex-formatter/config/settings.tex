@@ -1,0 +1,138 @@
+% Styling and Document Configuration for FoodLAB Guidebooks (PENS Standard)
+
+% Color Definitions (Official FoodLAB Design System & Brand Palette)
+\definecolor{pensblue}{RGB}{1, 82, 187}        % FoodLAB Brand Royal Blue (#0152BB)
+\definecolor{pensgold}{RGB}{222, 198, 14}      % FoodLAB Brand Yellow / Gold (#DEC60E)
+\definecolor{lightcream}{RGB}{255, 253, 245}   % Soft Warm Cream Background for Infoboxes (#FFFDF5)
+\definecolor{charcoal}{RGB}{45, 45, 45}        % Primary Body Text Charcoal (#2D2D2D)
+
+% Hyperref Setup with Dynamic Metadata
+\hypersetup{
+  pdftitle={\docPdfTitle},
+  pdfsubject={\docPdfSubject},
+  pdfkeywords={\docPdfKeywords},
+  pdfauthor={\docPdfAuthor},
+  colorlinks=true,
+  linkcolor=pensblue,
+  citecolor=pensblue,
+  urlcolor=pensblue,
+  pdfborder={0 0 0},
+  pdfpagemode=UseNone,
+  pdfstartview=FitH,
+  bookmarksnumbered=true,
+  bookmarksopen=true
+}
+
+% Header & Footer Settings (Exact match to v0.2.8.pdf)
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{charcoal}\docTitle}
+\fancyhead[R]{}
+\fancyfoot[C]{\small\color{charcoal}-- \textbf{\thepage} --}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Plain page style for chapter beginnings
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\color{charcoal}-- \textbf{\thepage} --}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% Section & Subsection Formatting (Clean Top Spacing & No Hyphenation in Headings)
+\titleformat{\chapter}[hang]
+  {\normalfont\LARGE\bfseries\color{pensblue}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+  {}
+  {0pt}
+  {\LARGE}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{pensblue}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+  {\thesection}{0.8em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{pensblue}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+  {\thesubsection}{0.8em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{charcoal}\raggedright\hyphenpenalty=10000\exhyphenpenalty=10000}
+  {\thesubsubsection}{0.8em}{}
+
+\titlespacing*{\chapter}{0pt}{-20pt}{14pt}
+\titlespacing*{\section}{0pt}{14pt}{4pt}
+\titlespacing*{\subsection}{0pt}{10pt}{3pt}
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+
+% List Spacing
+\setlist[itemize]{topsep=4pt, itemsep=2pt, parsep=0pt, leftmargin=1.5em}
+\setlist[enumerate]{topsep=4pt, itemsep=2pt, parsep=0pt, leftmargin=1.5em}
+
+% Custom Infobox Matching v0.2.8.pdf (Gold Dashed Border & Cream Background)
+\newtcolorbox{infobox}[1][]{
+  enhanced,
+  colback=lightcream,
+  colframe=pensgold,
+  boxrule=0.8pt,
+  arc=0pt,
+  sharp corners,
+  borderline={1pt}{0pt}{pensgold, dashed},
+  left=12pt,
+  right=12pt,
+  top=10pt,
+  bottom=10pt,
+  before upper={%
+    \ifstrempty{#1}{}{%
+      {\large\bfseries\color{pensblue} #1}\par\vspace{6pt}
+    }%
+  }
+}
+
+% Macro: Full-Page Chapter Divider Cover (Clean White High-Contrast Standard)
+\newcommand{\makechaptercover}[2]{%
+  \ifdefstring{\enableChapterCover}{true}{%
+    \newpage
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture, overlay]
+      % Clean White Background
+      \fill[white] (current page.north west) rectangle (current page.south east);
+
+      % Left Accent Border Strip (Royal Blue + Gold Accent)
+      \fill[pensblue] (current page.north west) rectangle ([xshift=1.2cm]current page.south west);
+      \fill[pensgold] ([xshift=1.2cm]current page.north west) rectangle ([xshift=1.5cm]current page.south west);
+
+      % Chapter Banner in Bold Gold/Amber (e.g. BAB 1 / CHAPTER 1)
+      \node[anchor=north west, inner sep=0pt] at ([shift={(2.5cm,-4.2cm)}]current page.north west) {
+        {\fontsize{38pt}{44pt}\selectfont\bfseries\color{pensgold} \labelChapterUpper{} #1}
+      };
+
+      % Chapter Title in Bold Royal Blue with No Hyphenation (Clean Word Wrap)
+      \node[anchor=north west, inner sep=0pt, text width=16.0cm, align=flush left] at ([shift={(2.5cm,-6.2cm)}]current page.north west) {
+        {\fontsize{24pt}{30pt}\selectfont\bfseries\color{pensblue}\raggedright\sloppy\hyphenpenalty=10000\exhyphenpenalty=10000 #2}
+      };
+
+      % Decorative Horizontal Rule Under Chapter Title
+      \draw[pensgold, line width=1.5pt] ([shift={(2.5cm,-8.4cm)}]current page.north west) -- ([shift={(11.5cm,-8.4cm)}]current page.north west);
+
+      % FoodLAB Official Logo at Bottom Right (Crystal Clear on White Background)
+      \node[anchor=south east, inner sep=0pt] at ([shift={(-2.5cm, 2.5cm)}]current page.south east) {
+        \IfFileExists{figures/foodlab-logo.png}{%
+          \includegraphics[height=1.2cm]{figures/foodlab-logo.png}%
+        }{%
+          \IfFileExists{figures/logo-pens.png}{%
+            \includegraphics[height=1.2cm]{figures/logo-pens.png}%
+          }{}%
+        }%
+      };
+    \end{tikzpicture}
+    \clearpage
+  }{}%
+}
+
+% Helper Commands
+\newcommand{\code}[1]{\texttt{\small #1}}
+
+% Dynamic Localization Strings (Loaded from metadata)
+\ifdef{\labelContentsName}{\renewcommand{\contentsname}{\labelContentsName}}{}
+\ifdef{\labelChapterName}{\renewcommand{\chaptername}{\labelChapterName}}{}
+\ifdef{\labelAppendixName}{\renewcommand{\appendixname}{\labelAppendixName}}{}

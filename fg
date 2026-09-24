@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# FoodLAB Guidebook Creator (FG) Bash CLI
+# ==============================================================================
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BUILD_DIR="$SCRIPT_DIR/build"
+CONTENT_DIR="$SCRIPT_DIR/content"
+FORMATTER_DIR="$SCRIPT_DIR/latex-formatter"
+SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+
+TARGET="${1:-all}"
+
+clean_aux() {
+    mkdir -p "$BUILD_DIR"
+    find "$BUILD_DIR" -type f ! -name '*.pdf' -delete 2>/dev/null || true
+    if [ -d "$FORMATTER_DIR" ]; then
+        find "$FORMATTER_DIR" -maxdepth 1 -type f \( -name '*.aux' -o -name '*.log' -o -name '*.toc' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.synctex*' -o -name '*.out' -o -name '*.tmp' \) -delete 2>/dev/null || true
+    fi
+}
+
+clean_cache() {
+    echo "==> [CLEAN-CACHE] Purging generated LaTeX files (Preserving PDFs in build/)..."
+    rm -rf "$FORMATTER_DIR/chapters"/* "$FORMATTER_DIR/appendices"/* 2>/dev/null || true
+    find "$FORMATTER_DIR/config" -type f -name 'metadata_*.tex' -delete 2>/dev/null || true
+    find "$FORMATTER_DIR/frontmatter" -type f -name 'kata_pengantar_*.tex' -delete 2>/dev/null || true
+    find "$FORMATTER_DIR" -maxdepth 1 -type f -name '*.tex' -delete 2>/dev/null || true
+    clean_aux
+    echo "==> [DONE] Cache cleaned. All PDF files in build/ remain intact."
+}
+
+clean_all() {
+    echo "==> [DISTCLEAN] Removing build/ directory and LaTeX cache..."
+    rm -rf "$BUILD_DIR" '$BuildDir' '$BuilDir' 2>/dev/null || true
+    clean_cache
+    echo "==> [DONE] Everything cleaned."
+}
+
+is_template() {
+    local fname="$1"
+    if [[ "$fname" == template-* || "$fname" == template_* || "$fname" == _* ]]; then
+        return 0
+    fi
+    local fpath="$CONTENT_DIR/$fname"
+    if [ -f "$fpath" ]; then
+        if head -n 25 "$fpath" | grep -qE "^\s*template\s*:\s*(\"true\"|true|1|yes)\s*$"; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+show_available() {
+    if [ -d "$CONTENT_DIR" ]; then
+        echo "Available documents in content/:"
+        for f in "$CONTENT_DIR"/*.md; do
+            if [ -f "$f" ]; then
+                local bname="$(basename "$f")"
+                local stem="${bname%.md}"
+                if is_template "$bname"; then
+                    echo "  - $stem (template, excluded from 'all')"
+                else
+                    echo "  - $stem"
+                fi
+            fi
+        done
+    fi
+}
+
+build_single() {
+    local raw_input="$1"
+    # Strip any extension (e.g. driver.md, driver.ml, driver.tex)
+    local base_name="$(basename "$raw_input")"
+    base_name="${base_name%.*}"
+    local md_file="$CONTENT_DIR/$base_name.md"
+
+    if [ ! -f "$md_file" ]; then
+        echo "" >&2
+        echo "[ERROR] Document '$base_name' was not found in content/ directory." >&2
+        echo "" >&2
+        show_available >&2
+        echo "" >&2
+        echo "Usage:" >&2
+        echo "  fg <document-name>    Compile a specific document" >&2
+        echo "  fg all                Compile all active documents" >&2
+        echo "  fg help               Display command usage" >&2
+        echo "" >&2
+        return 1
+    fi
+
+    mkdir -p "$BUILD_DIR" "$FORMATTER_DIR"
+
+    echo "==> [MD2LATEX] Converting content/$base_name.md -> latex-formatter/..."
+    python3 "$SCRIPTS_DIR/md2latex.py" --input "$md_file" --formatter-dir "$FORMATTER_DIR"
+
+    echo "==> [BUILD] Compiling $base_name.tex into build/$base_name.pdf..."
+    cd "$FORMATTER_DIR"
+    latexmk -pdf -interaction=nonstopmode -synctex=1 -file-line-error -outdir="../build" "$base_name.tex"
+    cd "$SCRIPT_DIR"
+
+    clean_aux
+    echo "==> [DONE] Success: build/$base_name.pdf (Clean build/ directory)"
+}
+
+case "$TARGET" in
+    clean-cache)
+        clean_cache
+        ;;
+    clean)
+        echo "==> [CLEAN] Purging auxiliary files in build/ and latex-formatter/..."
+        clean_aux
+        echo "==> [DONE] Auxiliary files removed."
+        ;;
+    clean-all)
+        clean_all
+        ;;
+    help|-h|--help)
+        echo "FoodLAB Guidebook Creator (FG) CLI"
+        echo ""
+        echo "Usage: ./fg <target>"
+        echo "Commands:"
+        echo "  ./fg <name>          Compile content/<name>.md -> build/<name>.pdf"
+        echo "  ./fg all             Compile all active handbooks (skips templates)"
+        echo "  ./fg clean-cache     Remove generated LaTeX files (keeps PDFs in build/)"
+        echo "  ./fg clean           Remove intermediate auxiliary files"
+        echo "  ./fg clean-all       Purge build/ folder and LaTeX cache entirely"
+        echo ""
+        show_available
+        ;;
+    all)
+        compiled_count=0
+        for f in "$CONTENT_DIR"/*.md; do
+            if [ -f "$f" ]; then
+                fname="$(basename "$f")"
+                stem="${fname%.md}"
+                if is_template "$fname"; then
+                    echo "[SKIP] $fname is marked as template (run './fg $stem' to compile explicitly)."
+                else
+                    build_single "$stem"
+                    compiled_count=$((compiled_count + 1))
+                fi
+            fi
+        done
+        if [ "$compiled_count" -eq 0 ]; then
+            echo ""
+            echo "[INFO] No non-template documents found in content/ to build."
+            echo "To compile a template file directly, run: ./fg template-id or ./fg template-en"
+        fi
+        ;;
+    *)
+        build_single "$TARGET"
+        ;;
+esac

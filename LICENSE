@@ -1,0 +1,24 @@
+FOODLAB PROPRIETARY AND BRAND ASSET PROTECTION LICENSE
+
+Copyright (c) 2026 yc2o. All rights reserved.
+
+1. Intellectual Property and Brand Asset Reservation
+
+All trademarks, service marks, trade names, logos, mascots, graphical assets, visual design tokens, illustrations, and operational handbook contents associated with "FoodLAB" (including but not limited to files in `figures/`, `latex-formatter/figures/`, and official guidebook manuscripts) are the sole and exclusive intellectual property of yc2o and the FoodLAB Project.
+
+No license, permission, or right of any kind is granted to:
+(a) Copy, reproduce, redistribute, sublicense, or publish any FoodLAB brand assets, logos, icons, or trademarks;
+(b) Use the "FoodLAB" name, logo, or likeness to endorse, promote, or brand any external, commercial, or third-party product, service, or organization;
+(c) Distribute, publish, or publicly display derivative operational manuals or handbooks using FoodLAB visual identity or institutional branding outside authorized operational environments without prior written consent from yc2o.
+
+2. Tooling and Compilation Scripts (Educational and Non-Commercial Use)
+
+Permission is hereby granted, free of charge, to any authorized user to inspect, run, and adapt the underlying compilation tooling and generator scripts (specifically `scripts/md2latex.py` and the `fg` CLI utilities) solely for educational, research, and non-commercial publishing workflows, subject to the following conditions:
+
+1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the tooling scripts.
+2. The scripts and tooling may not be used to distribute, commercialize, or falsely represent unauthorized third-party services as official FoodLAB products or services.
+3. Any third-party adaptation of the compilation scripts for external projects must replace all FoodLAB logos, names, metadata, and design tokens with their own original or generic branding.
+
+3. Disclaimer of Warranty and Limitation of Liability
+
+The software and documentation are provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software or assets.

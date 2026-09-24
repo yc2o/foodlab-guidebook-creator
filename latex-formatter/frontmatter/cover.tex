@@ -1,0 +1,66 @@
+% Cover Page Matching v0.2.8.pdf Standard
+\begin{titlepage}
+  \newgeometry{top=3cm, bottom=3cm, left=3cm, right=3cm}
+  \begin{center}
+
+    \vspace*{0.8cm}
+
+    % Boxed FoodLAB Header
+    \begin{tcolorbox}[
+      colback=white,
+      colframe=pensgold,
+      arc=0pt,
+      boxrule=1.5pt,
+      width=4.8cm,
+      halign=center,
+      valign=center,
+      top=6pt,
+      bottom=6pt
+    ]
+      {\Large\bfseries\color{pensblue} FOODLAB}
+    \end{tcolorbox}
+
+    \vspace{1.5cm}
+
+    % Document Title & Subtitle
+    {\LARGE\bfseries\color{black} \docTitle}\\[0.35cm]
+    {\Huge\bfseries\color{pensblue} \MakeUppercase{\docSubtitle}}\\[0.8cm]
+
+    % Dual Decorative Rules (Gold then Blue)
+    {\color{pensgold}\rule{0.88\textwidth}{1.2pt}}\\[0.25cm]
+    {\color{pensblue}\rule{0.88\textwidth}{2.5pt}}\\[1.2cm]
+
+    % Subtitle & Institution
+    {\normalsize\itshape\color{charcoal} \docDescription}\\[0.3cm]
+    {\normalsize\bfseries\color{pensblue} \docInstitution}\\[1.5cm]
+
+    % Metadata Summary Box
+    \begin{tcolorbox}[
+      colback=lightcream,
+      colframe=pensgold,
+      arc=0pt,
+      boxrule=1pt,
+      width=0.88\textwidth,
+      top=12pt,
+      bottom=12pt,
+      left=20pt,
+      right=20pt
+    ]
+      \renewcommand{\arraystretch}{1.45}
+      \begin{tabular}{r@{\hspace{0.8em}}l}
+        \textbf{\color{pensblue} \labelDocNumber}  & : \code{\docNumber} \\
+        \textbf{\color{pensblue} \labelDocVersion}  & : \docVersion \\
+        \textbf{\color{pensblue} \labelDocStatus} & : \docStatus \\
+        \textbf{\color{pensblue} \labelDocPublisher}       & : \docPublisher \\
+      \end{tabular}
+    \end{tcolorbox}
+
+    \vfill
+
+    % Footer Information
+    {\small\scshape\color{charcoal} \MakeUppercase{\docEdition} $\cdot$ \docYear}\\[0.15cm]
+    {\small\color{charcoal} \docCity{} $\cdot$ \docInstitution}
+
+  \end{center}
+  \restoregeometry
+\end{titlepage}

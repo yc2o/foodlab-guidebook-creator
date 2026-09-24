@@ -1,0 +1,58 @@
+# ==============================================================================
+# FoodLAB Guide Book LaTeX (GBL) Git Ignore Policy
+# ==============================================================================
+
+# 1. Build Deliverables & Output Directory
+build/
+$BuildDir/
+$BuilDir/
+*.pdf
+
+# 2. Content Isolation Policy
+# Ignore all content manuals (e.g. driver.md, tenant.md, etc.) except official templates
+content/*
+!content/template-id.md
+!content/template-en.md
+!content/.gitkeep
+
+# 3. LaTeX Formatter Generated Cache & Modular Artifacts
+latex-formatter/chapters/
+latex-formatter/appendices/
+latex-formatter/config/metadata_*.tex
+latex-formatter/frontmatter/kata_pengantar_*.tex
+latex-formatter/*.tex
+
+# 4. LaTeX Auxiliary & Compilation Artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.synctex*
+*.toc
+*.vrb
+*.run.xml
+*.bcf
+*.tmp
+
+# 5. Python Bytecode & Environment
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 6. Operating System & Editor Metadata
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

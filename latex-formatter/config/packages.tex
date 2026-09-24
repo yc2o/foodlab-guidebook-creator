@@ -1,0 +1,57 @@
+% Package Configuration for FoodLAB Guidebooks (PENS Academic & Operational Standard)
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{microtype}
+
+% Page Geometry & Margins (PENS Standard: Left 3.5cm, Top 3.0cm, Right 3.0cm, Bottom 3.0cm)
+\usepackage[
+  a4paper,
+  top=3.0cm,
+  bottom=3.0cm,
+  left=3.5cm,
+  right=3.0cm,
+  headheight=16pt,
+  headsep=0.8cm,
+  footskip=1.0cm
+]{geometry}
+
+% Typography & Spacing (1.25 line spacing for readable handbook format)
+\usepackage{setspace}
+\setstretch{1.2}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Colors
+\usepackage[table,xcdraw]{xcolor}
+
+% Graphics & TikZ (For Chapter Divider Page & Visual Hierarchy)
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+
+% Tables (Supports multi-page breaking with flexible column widths)
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{array}
+
+% Lists & Enumerations
+\usepackage{enumitem}
+
+% Headers & Footers
+\usepackage{fancyhdr}
+
+% Section & Chapter Title Customization
+\usepackage{titlesec}
+
+% Boxes & Visual Callouts
+\usepackage[most]{tcolorbox}
+
+% Et-Toolbox for conditional testing
+\usepackage{etoolbox}
+
+% Hyperlinks & PDF Metadata
+\usepackage{hyperref}
+\usepackage{bookmark}
